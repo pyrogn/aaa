@@ -1,4 +1,4 @@
-from morse import decode
+from .morse import decode
 import pytest
 
 
