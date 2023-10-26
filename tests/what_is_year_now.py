@@ -1,8 +1,8 @@
-import urllib.request
+import requests
 import json
 
 
-API_URL = 'http://worldclockapi.com/api/json/utc/now'
+API_URL = 'https://worldclockapi.com/api/json/utc/now'
 
 YMD_SEP = '-'
 YMD_SEP_INDEX = 4
@@ -21,8 +21,10 @@ def what_is_year_now() -> int:
       * YYYY-MM-DD - 2019-03-01
       * DD.MM.YYYY - 01.03.2019
     """
-    with urllib.request.urlopen(API_URL) as resp:
-        resp_json = json.load(resp)
+    x = requests.get(API_URL, verify=False)
+    resp_json = json.loads(x.text)
+    #with urllib.request.urlopen(API_URL) as resp:
+    #    resp_json = json.load(resp)
 
     datetime_str = resp_json['currentDateTime']
     if datetime_str[YMD_SEP_INDEX] == YMD_SEP:
@@ -37,7 +39,7 @@ def what_is_year_now() -> int:
 
 if __name__ == '__main__':
     year = what_is_year_now()
-    exp_year = 2019
+    exp_year = 2023
 
     print(year)
     assert year == exp_year
