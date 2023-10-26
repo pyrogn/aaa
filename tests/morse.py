@@ -1,4 +1,5 @@
 """Morse Code Translator"""
+
 LETTER_TO_MORSE = {
     "A": ".-",
     "B": "-...",
