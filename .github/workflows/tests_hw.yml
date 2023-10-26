@@ -1,5 +1,5 @@
 name: tests_hw
-on: [push, pull_request]
+on: push
 jobs:
   issue1:
     runs-on: ubuntu-latest
@@ -9,7 +9,7 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: "3.11"
-      - name: run doctest
+      - name: RUN DOCTEST
         run: python -m doctest -o NORMALIZE_WHITESPACE -v tests/morse.py
       - name: Run Ruff
         run: |
@@ -24,7 +24,7 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: "3.11"
-      - name: run pytest
+      - name: RUN PYTEST
         run: |
           pip install pytest
           pytest -v tests/test_morse.py
@@ -32,3 +32,36 @@ jobs:
         run: |
           pip install ruff
           ruff check tests/test_morse.py
+
+  issue3:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: RUN UNITTEST
+        run: |
+          python -m unittest tests/test_ohe_unittest.py
+      - name: Run Ruff
+        run: |
+          pip install ruff
+          ruff check tests/test_ohe_unittest.py
+
+  issue4:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: RUN PYTEST
+        run: |
+          pip install pytest
+          pytest -v tests/test_ohe_pytest.py
+      - name: Run Ruff
+        run: |
+          pip install ruff
+          ruff check tests/test_ohe_pytest.py
