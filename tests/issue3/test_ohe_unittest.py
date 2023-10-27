@@ -33,5 +33,8 @@ class OHETestCase(unittest.TestCase):
             ((12,), [1, 0, 0, 0]),
             ("a", [0, 0, 1, 0]),
         ]
-        self.assertGreater(len(fit_transform(data)), 0)  # sanity check
+        output = fit_transform(data)
+        self.assertGreater(len(output), 0)  # sanity check
+        self.assertIsInstance(output, list)
+        self.assertIsInstance(output[0], tuple)
         self.assertEqual(expected, fit_transform(data))
