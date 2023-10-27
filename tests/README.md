@@ -30,7 +30,7 @@
 Задание выполнено в файле [issue5/test_year.py](./issue5/test_year.py)   
 Проверка unittest: `python -m unittest tests/issue5/test_year.py`   
 Проверка coverage (100% как нижний порог): `pytest tests/issue5 -q --cov=tests.what_is_year_now --cov-report term-missing --cov-fail-under=100`   
-Coverage:    
+Coverage (trust_me.jpg, я не придумал, как вставить интерактивный coverage из html):    
 <img width="601" alt="image" src="https://github.com/pyrogn/aaa/assets/60060559/31397dbc-a32c-402e-90ec-5a2c8cab615f">  
 
 Как запускалась генерация html файла:  
