@@ -1,5 +1,6 @@
-from .one_hot_encoder import fit_transform
 import unittest
+
+from ..one_hot_encoder import fit_transform
 
 
 class OHETestCase(unittest.TestCase):

@@ -1,9 +1,10 @@
-from .what_is_year_now import what_is_year_now
-import unittest
-from unittest.mock import patch
-import urllib.request
-import json
 import io
+import json
+import unittest
+import urllib.request
+from unittest.mock import patch
+
+from ..what_is_year_now import what_is_year_now
 
 
 def create_file_json_str(dict_obj):
