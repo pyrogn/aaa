@@ -1,5 +1,12 @@
 name: tests_hw
-on: push
+on: 
+  push:
+    branches:
+      - tests
+defaults:
+  run:
+    working-directory: ./tests
+
 jobs:
   issue1:
     runs-on: ubuntu-latest
@@ -10,11 +17,11 @@ jobs:
         with:
           python-version: "3.11"
       - name: RUN DOCTEST
-        run: python -m doctest -o NORMALIZE_WHITESPACE -v tests/morse.py
+        run: python -m doctest -o NORMALIZE_WHITESPACE -v morse.py
       - name: Run Ruff
         run: |
           pip install ruff
-          ruff check tests/morse.py
+          ruff check morse.py
 
   issue2:
     runs-on: ubuntu-latest
@@ -27,11 +34,11 @@ jobs:
       - name: RUN PYTEST
         run: |
           pip install pytest
-          pytest -v tests/test_morse.py
+          pytest -v issue2/test_morse.py
       - name: Run Ruff
         run: |
           pip install ruff
-          ruff check tests/test_morse.py
+          ruff check issue2/test_morse.py
 
   issue3:
     runs-on: ubuntu-latest
@@ -43,11 +50,11 @@ jobs:
           python-version: "3.11"
       - name: RUN UNITTEST
         run: |
-          python -m unittest tests/test_ohe_unittest.py
+          python -m unittest test_ohe_unittest.py
       - name: Run Ruff
         run: |
           pip install ruff
-          ruff check tests/test_ohe_unittest.py
+          ruff check test_ohe_unittest.py
 
   issue4:
     runs-on: ubuntu-latest
@@ -60,11 +67,11 @@ jobs:
       - name: RUN PYTEST
         run: |
           pip install pytest
-          pytest -v tests/test_ohe_pytest.py
+          pytest -v test_ohe_pytest.py
       - name: Run Ruff
         run: |
           pip install ruff
-          ruff check tests/test_ohe_pytest.py
+          ruff check test_ohe_pytest.py
 
   issue5:
     runs-on: ubuntu-latest
@@ -76,8 +83,8 @@ jobs:
           python-version: "3.11"
       - name: RUN UNITTEST
         run: |
-          python -m unittest tests/test_year.py
+          python -m unittest test_year.py
       - name: Run Ruff
         run: |
           pip install ruff
-          ruff check tests/test_year.py
+          ruff check test_year.py
