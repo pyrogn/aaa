@@ -36,7 +36,7 @@ def what_is_year_now() -> int:
     return int(year_str)
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover # should we test this part???
     try:
         year = what_is_year_now()
         exp_year = 2023

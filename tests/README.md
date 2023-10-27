@@ -29,6 +29,7 @@
 
 Задание выполнено в файле [issue5/test_year.py](./issue5/test_year.py)   
 Проверка unittest: `python -m unittest tests/issue5/test_year.py`   
+Проверка coverage: `pytest tests/issue5 -q --cov=tests.what_is_year_now --cov-report term-missing --cov-fail-under=100`   
 HTML-файл с coverage [file](./issue5/html_dir/index.html)   
 Как запускался:  
-`pytest --cov tests/issue5/ --cov-report html:tests/issue5/html_dir`
+`pytest tests/issue5 -q --cov=tests.what_is_year_now --cov-report html:tests/issue5/html_dir`

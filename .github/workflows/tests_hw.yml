@@ -84,7 +84,7 @@ jobs:
       - name: RUN COVERAGE
         run: |
           pip install pytest pytest-cov
-          pytest --cov tests/issue5/
+          pytest tests/issue5 -q --cov=tests.what_is_year_now --cov-report term-missing --cov-fail-under=100
       - name: Run Ruff
         run: |
           pip install ruff

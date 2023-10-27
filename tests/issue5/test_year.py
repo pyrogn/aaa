@@ -30,6 +30,12 @@ class YearTestCase(unittest.TestCase):
             mocked_api.urlopen.return_value = date_v2
             assert what_is_year_now() == 2077
 
+    def test_fail(self):
+        with patch("urllib.request") as mocked_api:
+            mocked_api.urlopen.return_value = date_fail
+            with self.assertRaisesRegex(ValueError, "Invalid format"):
+                what_is_year_now()
+
 
 if __name__ == "__main__":
     API_URL = "http://worldtimeapi.org/api/ip"
