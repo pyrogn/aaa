@@ -44,7 +44,7 @@ LETTER_TO_MORSE = {
     "-": "-....-",
     "(": "-.--.",
     ")": "-.--.-",
-    " ": "|",  # to distinguish breaks between words
+    " ": "|",  # В Морзе разделение между словами - 7 точек по длительности (факт)
 }
 
 MORSE_TO_LETTER = {morse: letter for letter, morse in LETTER_TO_MORSE.items()}
@@ -52,10 +52,12 @@ MORSE_TO_LETTER = {morse: letter for letter, morse in LETTER_TO_MORSE.items()}
 
 def encode(message: str) -> str:
     """
-    Кодирует строку в соответсвие с таблицей азбуки Морзе
+    Кодирует строку в соответсвии с таблицей азбуки Морзе
 
     >>> encode('HELLO THERE')
     '.... . .-.. .-.. --- | - .... . .-. .'
+
+    Не все символы есть в словаре
     >>> encode('!HOLA')
     Traceback (most recent call last):
     ...
@@ -86,11 +88,7 @@ def decode(morse_message: str) -> str:
     return "".join(decoded_letters)
 
 
-def test_decode(input, output):
-    assert input == output
-
-
-if __name__ == "__main__":
+if __name__ == "__main__":  # haven't touched this part
     morse_msg = "-- .- .. -....- .--. -.-- - .... --- -. -....- ..--- ----- .---- ----."
     decoded_msg = decode(morse_msg)
     print(decoded_msg)

@@ -1,4 +1,4 @@
-from .morse import decode
+from ..morse import decode
 import pytest
 
 
@@ -10,6 +10,7 @@ import pytest
     ],
 )
 def test_decode(input, output):
+    """Testing correct messages"""
     assert decode(input) == output
 
 
@@ -21,5 +22,6 @@ def test_decode(input, output):
     ],
 )
 def test_decode_fail(input):
+    """Should fail on broken messages"""
     with pytest.raises(KeyError):
         decode(input)
