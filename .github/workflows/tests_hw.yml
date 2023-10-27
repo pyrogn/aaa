@@ -3,9 +3,6 @@ on:
   push:
     branches:
       - tests
-defaults:
-  run:
-    working-directory: ./tests
 
 jobs:
   issue1:
@@ -17,11 +14,11 @@ jobs:
         with:
           python-version: "3.11"
       - name: RUN DOCTEST
-        run: python -m doctest -o NORMALIZE_WHITESPACE -v morse.py
+        run: python -m doctest -o NORMALIZE_WHITESPACE -v tests/morse.py
       - name: Run Ruff
         run: |
           pip install ruff
-          ruff check morse.py
+          ruff check tests/morse.py
 
   issue2:
     runs-on: ubuntu-latest
@@ -34,11 +31,11 @@ jobs:
       - name: RUN PYTEST
         run: |
           pip install pytest
-          pytest -v issue2/test_morse.py
+          pytest -v tests/issue2/test_morse.py
       - name: Run Ruff
         run: |
           pip install ruff
-          ruff check issue2/test_morse.py
+          ruff check tests/issue2/test_morse.py
 
   issue3:
     runs-on: ubuntu-latest
@@ -50,11 +47,11 @@ jobs:
           python-version: "3.11"
       - name: RUN UNITTEST
         run: |
-          python -m unittest test_ohe_unittest.py
+          python -m unittest tests/issue3/test_ohe_unittest.py
       - name: Run Ruff
         run: |
           pip install ruff
-          ruff check test_ohe_unittest.py
+          ruff check tests/issue3/test_ohe_unittest.py
 
   issue4:
     runs-on: ubuntu-latest
@@ -67,11 +64,11 @@ jobs:
       - name: RUN PYTEST
         run: |
           pip install pytest
-          pytest -v test_ohe_pytest.py
+          pytest -v tests/issue4/test_ohe_pytest.py
       - name: Run Ruff
         run: |
           pip install ruff
-          ruff check test_ohe_pytest.py
+          ruff check tests/issue4/test_ohe_pytest.py
 
   issue5:
     runs-on: ubuntu-latest
@@ -83,8 +80,12 @@ jobs:
           python-version: "3.11"
       - name: RUN UNITTEST
         run: |
-          python -m unittest test_year.py
+          python -m unittest tests/issue5/test_year.py
+      - name: RUN COVERAGE
+        run: |
+          pip install pytest pytest-cov
+          pytest --cov tests/issue5/
       - name: Run Ruff
         run: |
           pip install ruff
-          ruff check test_year.py
+          ruff check tests/issue5/test_year.py

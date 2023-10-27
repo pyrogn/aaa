@@ -1,9 +1,10 @@
-from .one_hot_encoder import fit_transform
 import pytest
+
+from ..one_hot_encoder import fit_transform
 
 
 @pytest.mark.parametrize(
-    "input, output",
+    ("input", "output"),
     [
         ("Moscow", [("Moscow", [1])]),
         (["Moscow"], [("Moscow", [1])]),
