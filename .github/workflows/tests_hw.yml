@@ -65,3 +65,19 @@ jobs:
         run: |
           pip install ruff
           ruff check tests/test_ohe_pytest.py
+
+  issue5:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: RUN UNITTEST
+        run: |
+          python -m unittest tests/test_years.py
+      - name: Run Ruff
+        run: |
+          pip install ruff
+          ruff check tests/test_year.py
