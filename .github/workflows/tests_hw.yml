@@ -76,7 +76,7 @@ jobs:
           python-version: "3.11"
       - name: RUN UNITTEST
         run: |
-          python -m unittest tests/test_years.py
+          python -m unittest tests/test_year.py
       - name: Run Ruff
         run: |
           pip install ruff
