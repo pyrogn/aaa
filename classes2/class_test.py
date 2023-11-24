@@ -1,7 +1,9 @@
 "Basic tests for Advert class and ColoredAdvert"
-import pytest
-from class_hw import Advert, ColoredAdvert
 import json
+
+import pytest
+
+from class_hw import Advert, ColoredAdvert
 
 lesson1 = {
     "title": "python",
@@ -39,12 +41,12 @@ def test_price():
 
     assert Advert({"title": "hello there"}).price == 0
 
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="price cannot be less than 0"):
         Advert({"title": "1", "price": -2})
 
 
 def test_title():
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="title is not present"):
         Advert({})
     assert Advert({"title": "titleName"}).title == "titleName"
 
@@ -66,4 +68,4 @@ def test_colored():
     }"""
     dog = json.loads(dog_str)
     dog_ad = ColoredAdvert(dog)
-    assert str(dog_ad) == f"\033[1;33;40m Вельш-корги | 1000 ₽"
+    assert str(dog_ad) == "\033[1;33;40m Вельш-корги | 1000 ₽"

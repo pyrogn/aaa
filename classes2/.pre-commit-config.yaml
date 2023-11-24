@@ -3,20 +3,18 @@
 default_language_version:
   python: python3.12
 repos:
--   repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.1.6
+-   repo: local
     hooks:
     -   id: ruff
-        args: [--fix, --exit-non-zero-on-fix]
--   repo: https://github.com/psf/black
-    rev: 23.11.0
-    hooks:
-      - id: black
+        name: ruff
+        language: system
+        files: '^classes2/.*'
+        entry: bash -c 'cd classes2 && ruff . --fix --exit-non-zero-on-fix'
 -   repo: local
     hooks:
       - id: pytest-check
         name: pytest-check
-        entry: pytest
+        entry: bash -c 'cd classes2 && pytest'
         language: system
         pass_filenames: false
         always_run: true

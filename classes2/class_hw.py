@@ -1,14 +1,14 @@
-from collections import abc
 from keyword import iskeyword
-from typing import Any, Protocol, TypeVar
+from typing import Any, Protocol
 
 Price = float
 
 
 class Advert:
-    """Object with dynamic attributes like in JavaScript
+    """Object with dynamic attributes like in JavaScript.
 
-    Methods:
+    Methods
+    -------
         check_root_level: Проверки первого уровня JSON
         price: property with price
     Attributes:
@@ -20,9 +20,10 @@ class Advert:
     """
 
     def __init__(self, json_dict: dict, *, is_root: bool = True):
-        """Ицинциализация класса с динамическими атрибутами
+        """Ицинциализация класса с динамическими атрибутами.
 
         Args:
+        ----
             json_dict (dict): десериализованный JSON
             is_root (bool, optional): Флаг для проверки базового уровня JSON
                 На более глубоких уровнях игнорируется проверка
@@ -88,16 +89,17 @@ class HasReprColorProtocol(Protocol):
 
 
 class ColorizeMixin:
-    """Mixin for coloring output of __str__ method"""
+    """Mixin for coloring output of __str__ method."""
 
     def __str__(self: HasReprColorProtocol):
         return f"\033[1;{self.repr_color_code};40m " + super().__str__()
 
 
 class ColoredAdvert(ColorizeMixin, Advert):
-    """Advert with colored std output
+    """Advert with colored std output.
 
-    Attributes:
+    Attributes
+    ----------
         repr_color_code (int): color code for coloring font
     """
 
