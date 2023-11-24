@@ -31,6 +31,12 @@ lesson_nested = {
 def test_select():
     lesson_ad = Advert(lesson1)
     assert lesson_ad.location.address == "город Москва, Лесная, 7"
+    with pytest.raises(KeyError, match="hello"):
+        lesson_ad.hello
+    with pytest.raises(
+        ValueError, match="It is neither root level of Advert nor value"
+    ):
+        str(lesson_ad.location)
 
 
 def test_price():

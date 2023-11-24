@@ -14,6 +14,7 @@ class Advert:
     Attributes:
         json_dict: словарь с информацией
         _price: переменная для хранения цены
+        is_root: флаг с указанием на корневой уровень JSON
 
     Можно изменить только price. Остальные атрибуты readonly,
     изменение возможно только при создании нового инстанса с новым аргументом json_dict
@@ -31,6 +32,7 @@ class Advert:
         """
         self.json_dict = json_dict
         self._price: Price
+        self.is_root = is_root
 
         if is_root:
             self.check_root_level()
@@ -75,12 +77,17 @@ class Advert:
 
     @classmethod
     def parse(cls, json_dict: dict) -> "Advert":
+        """Create new instance on a subset of json_dict"""
         return cls(json_dict, is_root=False)
 
     def __str__(self) -> str:
+        if not self.is_root:
+            raise ValueError("It is neither root level of Advert nor value")
         return f"{self.title} | {self.price:d} ₽"
 
     def __repr__(self) -> str:
+        if not self.is_root:
+            raise ValueError("It is neither root level of Advert nor value")
         return f"Advert({self.json_dict})"
 
 
