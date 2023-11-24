@@ -1,34 +1,55 @@
 from collections import abc
-import json
 from keyword import iskeyword
-from typing import Any
+from typing import Any, Protocol, TypeVar
 
 Price = float
 
 
 class Advert:
-    """_summary_
+    """Object with dynamic attributes like in JavaScript
 
-    Данное решение не создаёт внутренние структуры, но и не даёт
-    ничего изменить, кроме цены - property
+    Methods:
+        check_root_level: Проверки первого уровня JSON
+        price: property with price
+    Attributes:
+        json_dict: словарь с информацией
+        _price: переменная для хранения цены
+
+    Можно изменить только price. Остальные атрибуты readonly,
+    изменение возможно только при создании нового инстанса с новым аргументом json_dict
     """
 
     def __init__(self, json_dict: dict, *, is_root: bool = True):
-        self.json_dict = json_dict  # атрибут, но можно ли его убрать?
-        if is_root:
-            self.checks_root_branch()
+        """Ицинциализация класса с динамическими атрибутами
 
-    def checks_root_branch(self) -> None:
+        Args:
+            json_dict (dict): десериализованный JSON
+            is_root (bool, optional): Флаг для проверки базового уровня JSON
+                На более глубоких уровнях игнорируется проверка
+                Defaults to True.
+        """
+        self.json_dict = json_dict
+        self._price: Price
+
+        if is_root:
+            self.check_root_level()
+
+    def check_root_level(self) -> None:
+        """Проверки первого уровня JSON на атрибуты price и title.
+
+        При ошибке выбрасывает ValueError с текстом ошибки и атрибутом
+        """
         try:
             self.price = self.json_dict["price"]
         except KeyError:
             self.price = 0
         except ValueError:
             raise
+
         try:
             self.json_dict["title"]
         except KeyError:
-            raise ValueError("Title is not present")
+            raise ValueError("title is not present")
 
     @property
     def price(self) -> Price:
@@ -41,12 +62,15 @@ class Advert:
         self._price = value
 
     def __getattr__(self, key: str) -> Any:
-        if iskeyword(key.strip("_")):
-            key = key.strip("_")
-        if isinstance(self.json_dict[key], abc.Mapping):
-            return self.parse(self.json_dict[key])
-        else:
-            return self.json_dict[key]
+        if iskeyword(key[:-1]):
+            key = key[:-1]
+
+        value = self.json_dict[key]
+        if isinstance(value, dict):
+            return self.parse(value)
+        elif isinstance(value, list):
+            return [self.parse(json_obj) for json_obj in value]
+        return value
 
     @classmethod
     def parse(cls, json_dict: dict) -> "Advert":
@@ -59,25 +83,42 @@ class Advert:
         return f"Advert({self.json_dict})"
 
 
-class ColorizeMixin:
-    def __init_subclass__(cls, repr_color_code=32) -> None:
-        super().__init_subclass__()
-        if repr_color_code != 32:
-            cls.repr_color_code = repr_color_code
+class HasReprColorProtocol(Protocol):
+    repr_color_code: int
 
-    def __str__(self):
+
+class ColorizeMixin:
+    """Mixin for coloring output of __str__ method"""
+
+    def __str__(self: HasReprColorProtocol):
         return f"\033[1;{self.repr_color_code};40m " + super().__str__()
 
 
 class ColoredAdvert(ColorizeMixin, Advert):
-    repr_color_code = 33
+    """Advert with colored std output
+
+    Attributes:
+        repr_color_code (int): color code for coloring font
+    """
+
+    color_map: dict[str, int] = {
+        "red": 31,
+        "green": 32,
+        "yellow": 33,
+        "blue": 34,
+        "purple": 35,
+    }
+    repr_color_code: int = color_map["yellow"]
 
 
 if __name__ == "__main__":
+    import json
+
     # создаем экземпляр класса Advert из JSON
     lesson_str = """{
         "title": "python",
         "price": 0,
+        "class": "Programming Language",
         "location": {
             "address": "город Москва, Лесная, 7",
             "metro_stations": ["Белорусская"]
@@ -85,6 +126,8 @@ if __name__ == "__main__":
     }"""
     lesson = json.loads(lesson_str)
     lesson_ad = Advert(lesson)
+    print(lesson_ad.class_)
+    print(lesson_ad.location.address)
 
     iphone_ad = ColoredAdvert({"title": "iPhone X", "price": 100})
     print(iphone_ad)

@@ -1,4 +1,3 @@
-from multiprocessing import Value
 import pytest
 from class_hw import Advert
 import json
