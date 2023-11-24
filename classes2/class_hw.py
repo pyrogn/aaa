@@ -60,15 +60,17 @@ class Advert:
 
 
 class ColorizeMixin:
-    # def __init_subclass__(cls, repr_color_code=32) -> None:
-    #     pass
+    def __init_subclass__(cls, repr_color_code=32) -> None:
+        super().__init_subclass__()
+        if repr_color_code != 32:
+            cls.repr_color_code = repr_color_code
 
     def __str__(self):
-        return f"\033[1;32;40m " + super().__str__()
+        return f"\033[1;{self.repr_color_code};40m " + super().__str__()
 
 
 class ColoredAdvert(ColorizeMixin, Advert):
-    repr_color_code = 32
+    repr_color_code = 33
 
 
 if __name__ == "__main__":
