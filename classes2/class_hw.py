@@ -1,7 +1,7 @@
 from keyword import iskeyword
 from typing import Any, Protocol
 
-Price = float
+Price = float | int
 
 
 class Advert:
@@ -60,6 +60,8 @@ class Advert:
 
     @price.setter
     def price(self, value: Price):
+        if not isinstance(value, Price):
+            raise TypeError("price should have type int or float")
         if value < 0:
             raise ValueError("price cannot be less than 0")
         self._price = value

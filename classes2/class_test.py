@@ -50,6 +50,9 @@ def test_price():
     with pytest.raises(ValueError, match="price cannot be less than 0"):
         Advert({"title": "1", "price": -2})
 
+    with pytest.raises(TypeError, match="price should have type int or float"):
+        Advert({"title": "a", "price": {"level": 1}})
+
 
 def test_title():
     with pytest.raises(ValueError, match="title is not present"):
