@@ -1,0 +1,91 @@
+name: tests_hw
+on: 
+  push:
+    branches:
+      - tests
+
+jobs:
+  issue1:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: RUN DOCTEST
+        run: python -m doctest -o NORMALIZE_WHITESPACE -v tests/morse.py
+      - name: Run Ruff
+        run: |
+          pip install ruff
+          ruff check tests/morse.py
+
+  issue2:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: RUN PYTEST
+        run: |
+          pip install pytest
+          pytest -v tests/issue2/test_morse.py
+      - name: Run Ruff
+        run: |
+          pip install ruff
+          ruff check tests/issue2/test_morse.py
+
+  issue3:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: RUN UNITTEST
+        run: |
+          python -m unittest tests/issue3/test_ohe_unittest.py
+      - name: Run Ruff
+        run: |
+          pip install ruff
+          ruff check tests/issue3/test_ohe_unittest.py
+
+  issue4:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: RUN PYTEST
+        run: |
+          pip install pytest
+          pytest -v tests/issue4/test_ohe_pytest.py
+      - name: Run Ruff
+        run: |
+          pip install ruff
+          ruff check tests/issue4/test_ohe_pytest.py
+
+  issue5:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: RUN UNITTEST
+        run: |
+          python -m unittest tests/issue5/test_year.py
+      - name: RUN COVERAGE
+        run: |
+          pip install pytest pytest-cov
+          pytest tests/issue5 -q --cov=tests.what_is_year_now --cov-report term-missing --cov-fail-under=100
+      - name: Run Ruff
+        run: |
+          pip install ruff
+          ruff check tests/issue5/test_year.py
