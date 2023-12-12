@@ -5,31 +5,40 @@ import pytest
 
 from class_hw import Advert, ColoredAdvert
 
-lesson1 = {
-    "title": "python",
-    "price": 0,
-    "location": {
-        "address": "город Москва, Лесная, 7",
-        "metro_stations": ["Белорусская"],
-    },
-}
 
-lesson_keyword = {
-    "title": "python",
-    "class": "I am keyword",
-}
-
-lesson_nested = {
-    "title": "flora",
-    "listings": [
-        {"flower": "dandelion"},
-        {"flower": "for Algernon"},
-    ],
-}
+@pytest.fixture()
+def lesson_basic():
+    return {
+        "title": "python",
+        "price": 0,
+        "location": {
+            "address": "город Москва, Лесная, 7",
+            "metro_stations": ["Белорусская"],
+        },
+    }
 
 
-def test_select():
-    lesson_ad = Advert(lesson1)
+@pytest.fixture()
+def lesson_keyword():
+    return {
+        "title": "python",
+        "class": "I am keyword",
+    }
+
+
+@pytest.fixture()
+def lesson_nested():
+    return {
+        "title": "flora",
+        "listings": [
+            {"flower": "dandelion"},
+            {"flower": "for Algernon"},
+        ],
+    }
+
+
+def test_select(lesson_basic):
+    lesson_ad = Advert(lesson_basic)
     assert lesson_ad.location.address == "город Москва, Лесная, 7"
     with pytest.raises(KeyError, match="hello"):
         lesson_ad.hello
@@ -39,8 +48,8 @@ def test_select():
         str(lesson_ad.location)
 
 
-def test_price():
-    lesson_ad = Advert(lesson1)
+def test_price(lesson_basic):
+    lesson_ad = Advert(lesson_basic)
 
     lesson_ad.price = 23
     assert lesson_ad.price == 23
@@ -60,12 +69,12 @@ def test_title():
     assert Advert({"title": "titleName"}).title == "titleName"
 
 
-def test_keywords():
+def test_keywords(lesson_keyword):
     lesson_ad = Advert(lesson_keyword)
     assert lesson_ad.class_ == "I am keyword"
 
 
-def test_nested():
+def test_nested(lesson_nested):
     ad = Advert(lesson_nested)
     assert ad.listings[1].flower == "for Algernon"
 
