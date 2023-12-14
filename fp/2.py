@@ -11,9 +11,10 @@
 1) from operator import itemgetter, attrgetter
 2) from functools import partial
 """
-from collections.abc import Sequence
 from dataclasses import dataclass
 from operator import itemgetter, attrgetter
+from functools import partial
+from typing import Callable, Iterable, Literal
 
 
 @dataclass
@@ -29,17 +30,27 @@ users = [
     {"name": "Liz", "age": 18},
 ]
 
-name_key_getter = itemgetter("name")
-name_attr_getter = attrgetter("name")
+
+def get_getter(
+    key_name: str, obj_type: Literal["dict", "class"]
+) -> Callable[[Iterable], map]:
+    # I use if-elif-else to evaluate only what is needed
+    if obj_type == "dict":
+        getter = itemgetter(key_name)
+    elif obj_type == "class":
+        getter = attrgetter(key_name)
+    else:
+        raise ValueError
+
+    # я создаю closure, но если выносить функцию, надо добавить параметр getter
+    def get_elems(data: Iterable) -> map:
+        return map(getter, data)
+
+    return get_elems
 
 
-def get_names(users: Sequence[dict]) -> map:
-    return map(name_key_getter, users)
-
-
-def get_object_names(users: Sequence[User]) -> map:
-    return map(name_attr_getter, users)
-
+get_names = get_getter("name", "dict")
+get_object_names = get_getter("name", "class")
 
 assert list(get_names(users)) == ["Paul", "Liz"]
 assert list(get_object_names(users_objects)) == ["Paul", "Liz"]

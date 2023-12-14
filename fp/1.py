@@ -13,7 +13,7 @@ class Seq:
     def map(self, f: Callable[[Any], Any]) -> "Seq":
         return Seq(map(f, self.seq))
 
-    def take(self, n: int) -> tuple[Any, ...]:
+    def take(self, n: int) -> tuple:
         return tuple(islice(self.seq, 0, n))
 
 
@@ -22,5 +22,4 @@ if __name__ == "__main__":
     numbers = range(1, int(1e100))  # подтверждаем ленивость
     seq = Seq(numbers)
     res = seq.filter(lambda n: n % 2 == 0).map(lambda n: n + 10).take(2)
-    print(res)
     assert res == tuple([12, 14])
