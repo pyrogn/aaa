@@ -6,5 +6,4 @@ get_first_5 = fmap format elems
         format num = "Number is " ++ show (num :: Int)
 
 main :: IO ()
-main = do
-    putStrLn $ show get_first_5
+main = putStrLn $ show get_first_5
