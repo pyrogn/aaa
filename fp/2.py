@@ -31,8 +31,11 @@ users = [
 ]
 
 
+# Мне такой дизайн показался достаточно понятным.
+# И через новую функцию или partial можно задефолтить key_name или obj_type
 def get_getter(
-    key_name: str, obj_type: Literal["dict", "class"]
+    key_name: str,
+    obj_type: Literal["dict", "class"],
 ) -> Callable[[Iterable], map]:
     # I use if-elif-else to evaluate only what is needed
     if obj_type == "dict":
@@ -49,8 +52,9 @@ def get_getter(
     return get_elems
 
 
-get_names = get_getter("name", "dict")
-get_object_names = get_getter("name", "class")
+if __name__ == "__main__":
+    get_names = get_getter("name", "dict")
+    get_object_names = get_getter("name", "class")
 
-assert list(get_names(users)) == ["Paul", "Liz"]
-assert list(get_object_names(users_objects)) == ["Paul", "Liz"]
+    assert list(get_names(users)) == ["Paul", "Liz"]
+    assert list(get_object_names(users_objects)) == ["Paul", "Liz"]
